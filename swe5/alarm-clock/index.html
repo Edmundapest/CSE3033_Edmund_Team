@@ -1,0 +1,107 @@
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<html>
+<head>
+<title></title>
+<META NAME="DESCRIPTION" CONTENT=" ">
+<META NAME="KEYWORDS" CONTENT="">
+<script type="text/javascript"> 
+var global_dt_alarm_sec=0; // global variable to store Alarm value in Seconds
+function update_alarm(type,direction) {
+switch(type){
+case "h":
+var h =parseInt(document.getElementById('h1').value);
+if(direction =='up' && h < 24){
+h=h+1;}
+if(direction =='down' && h >0){
+h=h-1;}
+if(h >24){h=24;}
+if(h <0){h=0;}
+
+h=h.toString();
+if(h.length < 2){
+var h='0'+h;
+}
+document.getElementById('h1').value =  h;
+break;
+
+case "m":
+var m =parseInt(document.getElementById('m1').value);
+if(direction =='up' && m < 59){
+m=m+1;}
+if(direction =='down' && m >0){
+m=m-1;}
+if(m >59){m=59;}
+if(m <0){m=0;}
+m=m.toString();
+if(m.length < 2){
+var m='0'+m;
+}
+document.getElementById('m1').value =  m;
+
+break;
+
+case "s":
+var s =parseInt(document.getElementById('s1').value);
+if(direction =='up' && s < 59){
+s=s+1;}
+if(direction =='down' && s >0){
+s=s-1;}
+if(s >59){s=59;}
+if(s <0){s=0;}
+
+s=s.toString();
+if(s.length < 2){
+var s='0'+s;
+}
+document.getElementById('s1').value =  s;
+break;
+} // end of switch
+document.getElementById('ct3').style.fontSize='15px';
+document.getElementById('ct3').style.color='#0030c0';
+document.getElementById('ct3').innerHTML = document.getElementById('h1').value + ':' + document.getElementById('m1').value + ':' + document.getElementById('s1').value;
+ }
+function set_alarm(){
+var dt_alarm= new Date();
+dt_alarm.setHours(parseInt(document.getElementById('h1').value));
+dt_alarm.setMinutes(parseInt(document.getElementById('m1').value));
+dt_alarm.setSeconds(parseInt(document.getElementById('s1').value));
+global_dt_alarm_sec=dt_alarm.getTime();
+document.getElementById('ct3').style.background='#00f040';
+}
+
+
+function display_c(){
+var refresh=1000; // Refresh rate in milli seconds
+mytime=setTimeout('display_ct()',refresh)
+}
+
+
+function display_ct() {
+var dt = new Date();
+document.getElementById('ct4').innerHTML = dt;
+if((dt.getTime() >= global_dt_alarm_sec) && (global_dt_alarm_sec > 1000)){
+document.getElementById('ct3').style.background='#f00040';
+global_dt_alarm_sec=0;
+alert('Time over');
+}
+tt=display_c();
+}
+
+</script>
+</head>
+<body onload=display_ct();>
+<table><tr><td>
+<h1>Real time changing Clock showing date and time</h1><table><tr><td><a href=# OnClick=update_alarm('h','up')><img src=images/up.jpg border='0'></a></td><td><a href=# OnClick=update_alarm('m','up')><img src=images/up.jpg border='0'></a></td><td><a href=# OnClick=update_alarm('s','up')><img src=images/up.jpg border='0'></a></td></tr>
+
+<tr><td><input type=text size=2 id='h1' name='h1' value=00 onBlur=update_alarm('h','none')></td><td><input type=text size=2 id='m1' name='m1' value=00 onBlur=update_alarm('m','none')></td><td><input type=text size=2 id='s1' name='s1' value=00 onBlur=update_alarm('s','none')></td></tr>
+<tr><td><a href=# OnClick=update_alarm('h','down')><img src=images/down.jpg border='0'></a></td><td><a href=# OnClick=update_alarm('m','down')><img src=images/down.jpg border='0'></a></td><td><a href=# OnClick=update_alarm('s','down')><img src=images/down.jpg border='0'></a></td></tr>
+</table>
+<br><br>
+<span id='ct3' style="background-color: #FFFF00"></span><br><br><input type=button onClick=set_alarm() value='Set Alarm'> <span id='ct4' style="background-color: #f1f1f1"></span>
+<br><br><br><br>
+<a href=http://www.plus2net.com/javascript_tutorial/alarm-clock.php rel='nofollow'>plus2net.comTutorial on Alarm Clock in JavaScript</a>
+
+<br>
+
+</body>
+</html>
